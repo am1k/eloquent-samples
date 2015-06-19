@@ -46,11 +46,12 @@ var directions = {
     "nw": new Vector(-1, -1)
 };
 
+var directionNames = "n ne e se s sw w nw".split(" ");
+
 function randomElement(array) {
     return array[Math.floor(Math.random() * array.length)];
 }
 
-var directionNames = "n ne e se s sw w nw".split(" ");
 
 function BouncingCritter() {
     this.direction = randomElement(directionNames);
@@ -192,9 +193,8 @@ function dirPlus(dir, n) {
 function LifelikeWorld(map, legend) {
     World.call(this, map, legend);
 }
-LifelikeWorld.prototype = Object.create(World.prototype);
 
-var actionTypes = Object.create(null);
+LifelikeWorld.prototype = Object.create(World.prototype);
 
 LifelikeWorld.prototype.letAct = function(critter, vector) {
     var action = critter.act(new View(this, vector));
@@ -208,6 +208,8 @@ LifelikeWorld.prototype.letAct = function(critter, vector) {
             this.grid.set(vector, null);
     }
 };
+
+var actionTypes = Object.create(null);
 
 actionTypes.grow = function(critter) {
     critter.energy += 0.5;
