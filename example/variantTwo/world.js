@@ -167,4 +167,5 @@ var WorldModule = function () {
         LifelikeWorld: LifelikeWorld,
         directions: directions
     }
+
 }();
