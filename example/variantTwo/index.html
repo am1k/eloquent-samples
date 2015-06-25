@@ -1,13 +1,26 @@
 <!doctype html>
 <!--<script src="electronicLife.js"></script>-->
-<script src="grid.js"></script>
-<script src="world.js"></script>
-<script src="simpleEcosystem.js"></script>
-<script src="actionModule.js"></script>
-<script src="ecosystem.js"></script>
+<script src="life.js"></script>
+<script src="gridModules/vector.js"></script>
+<script src="gridModules/grid.js"></script>
+<script src="gridModules/directions.js"></script>
+<script src="worldModules/world.js"></script>
+<script src="worldModules/view.js"></script>
+<script src="worldModules/lifelikeWorld.js"></script>
+<script src="worldModules/elements.js"></script>
+<script src="worldModules/actionTypes.js"></script>
+<script src="simpleEcosystemModules/randomElement.js"></script>
+<script src="simpleEcosystemModules/dirplus.js"></script>
+<script src="ecosystemModules/wall.js"></script>
+<script src="ecosystemModules/plant.js"></script>
+<script src="ecosystemModules/plantEater.js"></script>
+<script src="ecosystemModules/smartPlantEater.js"></script>
+<script src="ecosystemModules/tigerHunter.js"></script>
+<script src="ecosystemModules/waterArea.js"></script>
+<script src="ecosystemModules/cleanMama.js"></script>
+<script src="map/map.js"></script>
 <script src="../animateworld.js"></script>
-<script src="eLife.js"></script>
 
 <body>
-<script>animateWorld(ElifeModule.table);</script>
+<script>eLife.animateWorld(eLife.table);</script>
 </body>
