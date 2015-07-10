@@ -1,0 +1,23 @@
+{
+  "name": "project-a-programm-language",
+  "version": "1.0.0",
+  "description": "Project Template to try TDD/BDD technique on common utils functions",
+  "scripts": {
+    "test": "mocha test.js",
+    "test-in-browser": "beefy test.js"
+  },
+  "keywords": [
+    "test",
+    "bdd",
+    "utils",
+    "tdd",
+    "learn",
+    "study"
+  ],
+  "author": "v.bogoroditskiy",
+  "license": "MIT",
+  "devDependencies": {
+    "expect.js": "^0.3.1",
+    "mocha": "^2.2.5"
+  }
+}

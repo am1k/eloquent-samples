@@ -1,52 +1,53 @@
+var EcosystemModule = {};
 
 function Wall() {}
 
-var actionTypes = Object.create(null);
+EcosystemModule.ationTypes = Object.create(null);
 
-actionTypes.grow = function(critter) {
-    critter.energy += 0.5;
-    return true;
+EcosystemModule.ationTypes = {
+    grow: function(critter) {
+        critter.energy += 0.5;
+        return true;
+    },
+    move: function(critter, vector, action) {
+        var dest = this.checkDestination(action, vector);
+        if (dest == null ||
+            critter.energy <= 1 ||
+            this.grid.get(dest) != null)
+            return false;
+        critter.energy -= 1;
+        this.grid.set(vector, null);
+        this.grid.set(dest, critter);
+        return true;
+    },
+    eat: function(critter, vector, action) {
+        var dest = this.checkDestination(action, vector);
+        var atDest = dest != null && this.grid.get(dest);
+        if (!atDest || atDest.energy == null)
+            return false;
+        critter.energy += atDest.energy;
+        this.grid.set(dest, null);
+        return true;
+    },
+    reproduce: function(critter, vector, action) {
+        var baby = WorldModule.elementFromChar(this.legend,
+            critter.originChar);
+        var dest = this.checkDestination(action, vector);
+        if (dest == null ||
+            critter.energy <= 2 * baby.energy ||
+            this.grid.get(dest) != null)
+            return false;
+        critter.energy -= 2 * baby.energy;
+        this.grid.set(dest, baby);
+        return true;
+    }
 };
 
-actionTypes.move = function(critter, vector, action) {
-    var dest = this.checkDestination(action, vector);
-    if (dest == null ||
-        critter.energy <= 1 ||
-        this.grid.get(dest) != null)
-        return false;
-    critter.energy -= 1;
-    this.grid.set(vector, null);
-    this.grid.set(dest, critter);
-    return true;
-};
-
-actionTypes.eat = function(critter, vector, action) {
-    var dest = this.checkDestination(action, vector);
-    var atDest = dest != null && this.grid.get(dest);
-    if (!atDest || atDest.energy == null)
-        return false;
-    critter.energy += atDest.energy;
-    this.grid.set(dest, null);
-    return true;
-};
-
-actionTypes.reproduce = function(critter, vector, action) {
-    var baby = elementFromChar(this.legend,
-        critter.originChar);
-    var dest = this.checkDestination(action, vector);
-    if (dest == null ||
-        critter.energy <= 2 * baby.energy ||
-        this.grid.get(dest) != null)
-        return false;
-    critter.energy -= 2 * baby.energy;
-    this.grid.set(dest, baby);
-    return true;
-};
-
-function Plant() {
+EcosystemModule.Plant = function() {
     this.energy = 3 + Math.random() * 4;
-}
-Plant.prototype.act = function(context) {
+};
+
+EcosystemModule.Plant.prototype.act = function(context) {
     if (this.energy > 10) {
         var space = context.find(" ");
         if (space)
@@ -56,10 +57,11 @@ Plant.prototype.act = function(context) {
         return {type: "grow"};
 };
 
-function PlantEater() {
+EcosystemModule.PlantEater = function() {
     this.energy = 10;
-}
-PlantEater.prototype.act = function(context) {
+};
+
+EcosystemModule.PlantEater.prototype.act = function(context) {
     var space = context.find(" ");
     if (this.energy > 60 && space)
         return {type: "reproduce", direction: space};
@@ -70,11 +72,11 @@ PlantEater.prototype.act = function(context) {
         return {type: "move", direction: space};
 };
 
-function SmartPlantEater() {
+EcosystemModule.SmartPlantEater = function() {
     this.energy = 20;
-}
+};
 
-SmartPlantEater.prototype.act = function(context) {
+EcosystemModule.SmartPlantEater.prototype.act = function(context) {
     var space = context.find(" ");
     if (this.energy > 60 && space)
         return {type: "reproduce", direction: space};
@@ -87,11 +89,11 @@ SmartPlantEater.prototype.act = function(context) {
         return {type: "move", direction: space};
 };
 
-function TigerHunter() {
+EcosystemModule.TigerHunter = function() {
     this.dir = "s";
-}
+};
 
-TigerHunter.prototype.act = function(context) {
+EcosystemModule.TigerHunter.prototype.act = function(context) {
 
     var space = context.find(" "),
         plant = context.find("*"),
@@ -100,10 +102,10 @@ TigerHunter.prototype.act = function(context) {
         start = this.dir;
 
 
-    if (context.look(dirPlus(this.dir, 2)) != " ")
-        start = this.dir = dirPlus(this.dir, 2);
+    if (context.look(SimpleEcosystemModule.dirPlus(this.dir, 2)) != " ")
+        start = this.dir = SimpleEcosystemModule.dirPlus(this.dir, 2);
     while (context.look(this.dir) != " ") {
-        this.dir = dirPlus(this.dir, 1);
+        this.dir = SimpleEcosystemModule.dirPlus(this.dir, 1);
         if (this.dir == start) break;
     }
     if (smart)
@@ -115,11 +117,11 @@ TigerHunter.prototype.act = function(context) {
 
 };
 
-function WaterArea() {
+EcosystemModule.WaterArea = function() {
     this.energy = 3 + Math.random() * 4;
-}
+};
 
-WaterArea.prototype.act = function(context) {
+EcosystemModule.WaterArea.prototype.act = function(context) {
 
     if (this.energy > 10) {
         var space = context.find(" ");
@@ -129,9 +131,11 @@ WaterArea.prototype.act = function(context) {
     if (this.energy < 20)
         return {type: "grow"};
 };
-function CleanMama() {
-}
-CleanMama.prototype.act = function(context) {
+
+EcosystemModule.CleanMama = function() {};
+
+
+EcosystemModule.CleanMama.prototype.act = function(context) {
     var space = context.find(" "),
         plant = context.find("*"),
         water = context.find("%");
@@ -143,7 +147,7 @@ CleanMama.prototype.act = function(context) {
         return {type: "move", direction: space};
 };
 
-var table = new LifelikeWorld(
+var table = new WorldModule.LifelikeWorld(
     ["####################################################",
         "#                 ####         ****              ###",
         "#   *  @  ##   ^        %     ########       OO    ##",
@@ -164,10 +168,10 @@ var table = new LifelikeWorld(
         "####################################################"],
     {
         "#": Wall,
-        "@": TigerHunter,
-        "O": SmartPlantEater, // from previous exercise
-        "*": Plant,
-        "%": WaterArea,
-        "^": CleanMama
+        "@": EcosystemModule.TigerHunter,
+        "O": EcosystemModule.SmartPlantEater, // from previous exercise
+        "*": EcosystemModule.Plant,
+        "%": EcosystemModule.WaterArea,
+        "^": EcosystemModule.CleanMama
     }
 );

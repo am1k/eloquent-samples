@@ -13,7 +13,8 @@ define([
         SimpleEcosystem,
         ActionModule,
         ElifeModule,
-        EcosystemModule
+        EcosystemModule,
+        animeate
     ) {
     return{};
 });
