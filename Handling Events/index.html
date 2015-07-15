@@ -19,24 +19,6 @@
     })
 </script>
 
-<!--<script>-->
-    <!--var dots = [];-->
-    <!--for( var i = 0; i < 12; i++) {-->
-        <!--var node = document.createElement("div");-->
-        <!--node.className = "trail";-->
-        <!--document.body.appendChild(node);-->
-        <!--dots.push(node);-->
-    <!--}-->
-    <!--var currentDot = 0;-->
-    <!--addEventListener("mousemove", function(event) {-->
-        <!--var dot = dots[currentDot];-->
-        <!--dot.style.left = (event.pageX - 3) + "px";-->
-        <!--dot.style.top = (event.pageY - 3) + "px";-->
-        <!--currentDot = (currentDot + 1) % dots.length;-->
-    <!--})-->
-<!--</script>-->
-
-
 <div id="wrapper">
     <div data-tabname="one">Tab one</div>
     <div data-tabname="two">Tab two</div>
@@ -83,70 +65,24 @@
     }
     asTabs(document.querySelector("#wrapper"));
 
-
-
-
 </script>
 
 <script>
-    function buildTable(data) {
-        var table = document.createElement("table");
-        var fields = Object.keys(data[0]);
-        var headRow = document.createElement("tr");
-
-        fields.forEach(function(field) {
-            var headCall = document.createElement("th");
-            headCall.textContent = field;
-            headRow.appendChild(headCall);
-        });
-        table.appendChild(headRow);
-
-        data.forEach(function(object) {
-            var row = document.createElement("tr");
-            fields.forEach(function(field) {
-                var cell = document.createElement("td");
-                cell.textContent = object[field];
-                if (typeof object[field] == "number") {
-                    cell.style.textAlign = "right";
-                }
-                row.appendChild(cell);
-            });
-            table.appendChild(row);
-        });
-        return table;
+    var dots = [];
+    for( var i = 0; i < 12; i++) {
+        var node = document.createElement("div");
+        node.className = "trail";
+        document.body.appendChild(node);
+        dots.push(node);
     }
-    document.body.appendChild(buildTable(MOUNTAINS));
+    var currentDot = 0;
+    addEventListener("mousemove", function(event) {
+        var dot = dots[currentDot];
+        dot.style.left = (event.pageX - 3) + "px";
+        dot.style.top = (event.pageY - 3) + "px";
+        currentDot = (currentDot + 1) % dots.length;
+    })
 </script>
 
-<h1>Heading with a <span>span</span> element.</h1>
-<p>A paragraph with <span>one</span>, <span>two</span>
-    spans.</p>
-<script>
-    function byTagName(node, tagName) {
-        var tags = [];
-        tagName = tagName.toUpperCase();
-
-        function explore(node) {
-            for (var i = 0; i < node.childNodes.length; i++) {
-                var child = node.childNodes[i];
-                if (child.nodeType == document.ELEMENT_NODE) {
-                    if (child.nodeName == tagName)
-                        tags.push(child);
-                    explore(child);
-                }
-            }
-        }
-        explore(node);
-        return tags;
-    }
-
-    console.log(byTagName(document.body, "h1").length);
-    // → 1
-    console.log(byTagName(document.body, "span").length);
-    // → 3
-    var para = document.querySelector("p");
-    console.log(byTagName(para, "span").length);
-    // → 2
-</script>
 </body>
 </html>

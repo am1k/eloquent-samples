@@ -1,0 +1,101 @@
+<!DOCTYPE html>
+<html>
+<head lang="en">
+    <meta charset="UTF-8">
+    <title></title>
+    <link rel="stylesheet" href="style.css">
+    <script src="http://eloquentjavascript.net/code/mountains.js"></script>
+</head>
+<body>
+
+<script>
+    function buildTable(data) {
+        var table = document.createElement("table");
+        var fields = Object.keys(data[0]);
+        var headRow = document.createElement("tr");
+
+        fields.forEach(function(field) {
+            var headCall = document.createElement("th");
+            headCall.textContent = field;
+            headRow.appendChild(headCall);
+        });
+        table.appendChild(headRow);
+
+        data.forEach(function(object) {
+            var row = document.createElement("tr");
+            fields.forEach(function(field) {
+                var cell = document.createElement("td");
+                cell.textContent = object[field];
+                if (typeof object[field] == "number") {
+                    cell.style.textAlign = "right";
+                }
+                row.appendChild(cell);
+            });
+            table.appendChild(row);
+        });
+        return table;
+    }
+    document.body.appendChild(buildTable(MOUNTAINS));
+</script>
+
+<h1>Heading with a <span>span</span> element.</h1>
+<p>A paragraph with <span>one</span>, <span>two</span>
+    spans.</p>
+<script>
+    function byTagName(node, tagName) {
+        var tags = [];
+        tagName = tagName.toUpperCase();
+
+        function explore(node) {
+            for (var i = 0; i < node.childNodes.length; i++) {
+                var child = node.childNodes[i];
+                if (child.nodeType == document.ELEMENT_NODE) {
+                    if (child.nodeName == tagName)
+                        tags.push(child);
+                    explore(child);
+                }
+            }
+        }
+        explore(node);
+        return tags;
+    }
+
+    console.log(byTagName(document.body, "h1").length);
+    // → 1
+    console.log(byTagName(document.body, "span").length);
+    // → 3
+    var para = document.querySelector("p");
+    console.log(byTagName(para, "span").length);
+    // → 2
+</script>
+
+<p style="text-align: center">
+    <img id="first" src="http://artgrafica.net/uploads/posts/2010-04/1270857847_xdvcpcshjor8pyn.jpeg" style="position: relative">
+    <img id="second" src="http://artgrafica.net/uploads/posts/2010-04/1270857847_xdvcpcshjor8pyn.jpeg" style="position: relative">
+</p>
+<script>
+    var first = document.querySelector("#first");
+    var second = document.querySelector("#second");
+    var att,btt;
+    var angle = 0, lastTime = null;
+    function animate(time) {
+        if (lastTime != null)
+            angle += (time - lastTime) * 0.001;
+        lastTime = time;
+
+        first.style.top = (Math.sin(angle) * 20) + "px";
+        first.style.left = (Math.cos(angle) * 200) + "px";
+
+        var catTop = Math.sin(angle) * 20;
+        var catLeft = Math.cos(angle) * 200;
+
+        second.style.top = catTop + (Math.sin(angle) * 150) + "px";
+        second.style.left = catLeft + (Math.cos(angle) * 150) + "px";
+        requestAnimationFrame(animate);
+    }
+    requestAnimationFrame(animate);
+
+</script>
+
+</body>
+</html>
