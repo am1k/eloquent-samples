@@ -45,10 +45,22 @@
     function byTagName(node, tagName) {
         var tags = [];
         tagName = tagName.toUpperCase();
+//
+//        for (var i = 0; i < node.children.length; i++) {
+//            var child = node.children[i];
+//            console.log(child);
+//            if (child.nodeName == tagName) {
+//                tags.push(child);
+//                console.log(tags);
+//            }
+//        }
+//
+//        return tags;
+
 
         function explore(node) {
-            for (var i = 0; i < node.childNodes.length; i++) {
-                var child = node.childNodes[i];
+            for (var i = 0; i < node.children.length; i++) {
+                var child = node.children[i];
                 if (child.nodeType == document.ELEMENT_NODE) {
                     if (child.nodeName == tagName)
                         tags.push(child);
@@ -69,7 +81,7 @@
     // → 2
 </script>
 
-<p style="text-align: center">
+<p style="text-align: center" class="wrapper-picture">
     <img id="first" src="http://artgrafica.net/uploads/posts/2010-04/1270857847_xdvcpcshjor8pyn.jpeg" style="position: relative">
     <img id="second" src="http://artgrafica.net/uploads/posts/2010-04/1270857847_xdvcpcshjor8pyn.jpeg" style="position: relative">
 </p>
@@ -83,14 +95,14 @@
             angle += (time - lastTime) * 0.001;
         lastTime = time;
 
-        first.style.top = (Math.sin(angle) * 20) + "px";
-        first.style.left = (Math.cos(angle) * 200) + "px";
+        first.style.top = (first.clientHeight / 2) + (Math.sin(angle) * 20) + "px";
+        first.style.left = (first.clientHeight / 2) + (Math.cos(angle) * 200) + "px";
 
-        var catTop = Math.sin(angle) * 20;
-        var catLeft = Math.cos(angle) * 200;
+        var catTop =  Math.sin(angle) * 40;
+        var catLeft =   Math.cos(angle) * 400;
 
-        second.style.top = catTop + (Math.sin(angle) * 150) + "px";
-        second.style.left = catLeft + (Math.cos(angle) * 150) + "px";
+        second.style.top = catTop + (Math.sin(angle) * 200) + "px";
+        second.style.left = catLeft + (Math.cos(angle) * 200) + "px";
         requestAnimationFrame(animate);
     }
     requestAnimationFrame(animate);
